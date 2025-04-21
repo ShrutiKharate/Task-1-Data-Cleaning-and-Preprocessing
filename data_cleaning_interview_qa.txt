@@ -1,0 +1,68 @@
+
+Interview Questions Related To Data Cleaning Task
+
+1. What are missing values and how do you handle them?
+Answer:
+Missing values are data points that are not recorded in the dataset, often represented as NaN in Pandas.
+In this task, I first identified missing values using .isnull().sum() and then handled them in two ways:
+- Dropped columns where more than 50% of the data was missing (using dropna() with thresh)
+- Filled remaining missing values using:
+  - Median for numeric columns (to avoid skew)
+  - Mode for categorical columns
+
+2. How do you treat duplicate records?
+Answer:
+Duplicate records are rows that appear more than once in a dataset. They can distort analysis and model performance.
+In this task, I removed duplicate rows using df.drop_duplicates(). This ensured that each observation was unique and didn't bias any analysis.
+
+3. Difference between dropna() and fillna() in Pandas?
+Answer:
+- dropna() is used to remove rows or columns with missing values.
+  Example: df.dropna(axis=0) removes rows with any missing values.
+- fillna() is used to fill in missing values with a specified value like the mean, median, or mode.
+  Example: df.fillna(df['GPA'].median()) fills missing GPA values with the median GPA.
+In this task, I used both depending on the situation.
+
+4. What is outlier treatment and why is it important?
+Answer:
+Outliers are data points significantly different from others. They can skew results and models.
+Though outlier detection was not a major focus in this specific task, it would be important in columns like GPA or weight to:
+- Check for values beyond acceptable ranges
+- Use techniques like IQR or Z-score for detection
+- Handle them by removing or capping them
+
+5. Explain the process of standardizing data.
+Answer:
+Standardizing data means converting it into a consistent format. In this task, I:
+- Standardized text fields (e.g., Gender) by mapping numerical codes to readable strings (1 → Female, 2 → Male)
+- Cleaned column names by converting to lowercase and replacing spaces with underscores
+- Ensured consistent data types (e.g., converting GPA and weight to numeric)
+
+6. How do you handle inconsistent data formats (e.g., date/time)?
+Answer:
+While this dataset didn't include date/time columns, handling inconsistent formats generally involves:
+- Converting all date columns to a consistent format using pd.to_datetime()
+- Ensuring the correct datatype (datetime64)
+
+Example:
+df['date'] = pd.to_datetime(df['date_column'], errors='coerce')
+
+7. What are common data cleaning challenges?
+Answer:
+Some challenges I faced or could encounter include:
+- High percentage of missing data in certain columns
+- Inconsistent labeling in categorical columns (e.g., typos or mixed casing)
+- Unstructured text in open-ended responses
+- Mixed data types or wrong column formats
+- Deciding whether to drop or impute missing values based on data importance
+
+8. How can you check data quality?
+Answer:
+Data quality can be checked using:
+- .info() to verify datatypes and nulls
+- .describe() for summary statistics
+- .duplicated().sum() to find duplicate entries
+- .nunique() to check unique values in categorical fields
+- Visual checks for outliers using boxplots or histograms
+
+In this task, I used all of the above to ensure the dataset was accurate, consistent, and ready for analysis.
